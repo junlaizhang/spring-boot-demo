@@ -1,14 +1,33 @@
 package net.junlai.domain;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+@Entity
+@Table(name = "greetings")
 public class Greeting {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    public Greeting(Integer id, String content) {
+    @Column(name = "to_who")
+    private String to;
+
+    @Column(name = "content")
+    @NotNull
+    private String content;
+
+    public Greeting() {
+        this(null, null, null);
+    }
+
+    public Greeting(Integer id, String content, String to) {
         this.id = id;
+        this.to = to;
         this.content = content;
     }
 
-    private String content;
 
     public Integer getId() {
         return id;
@@ -27,4 +46,11 @@ public class Greeting {
     }
 
 
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
+    }
 }

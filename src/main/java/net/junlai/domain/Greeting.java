@@ -9,7 +9,7 @@ public class Greeting {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @Column(name = "to_who")
     private String to;
@@ -22,18 +22,18 @@ public class Greeting {
         this(null, null, null);
     }
 
-    public Greeting(Integer id, String content, String to) {
+    public Greeting(Long id, String content, String to) {
         this.id = id;
         this.to = to;
         this.content = content;
     }
 
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

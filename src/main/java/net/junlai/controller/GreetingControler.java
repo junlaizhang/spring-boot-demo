@@ -3,22 +3,45 @@ package net.junlai.controller;
 import net.junlai.domain.Greeting;
 import net.junlai.service.GreetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.concurrent.atomic.AtomicInteger;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("greetings")
 public class GreetingControler {
-
     private static final String template = "Hello, %s";
-    private final AtomicInteger counter = new AtomicInteger();
 
     @Autowired
     GreetingRepository greetingRepository;
+
+
+    @DeleteMapping("/{id}")
+    public void delete(
+            @PathVariable() Long id
+    ) {
+        if (greetingRepository.exists(id)) {
+            greetingRepository.delete(id);
+        }
+    }
+
+
+    @GetMapping("/{id}")
+    public Greeting get(
+            @PathVariable() Long id
+    ) {
+        return greetingRepository.findOne(id);
+    }
+
+
+    @GetMapping("")
+    public Iterable<Greeting> findGreetings(
+            @RequestParam(value = "to", required = false) String to
+    ) {
+        if (to == null) {
+            return greetingRepository.findAll();
+        } else {
+            return greetingRepository.findByTo(to);
+        }
+    }
 
     @PostMapping("")
     public Greeting creatGreeting(
